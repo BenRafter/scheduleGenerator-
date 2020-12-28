@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 import javax.swing.JButton;
@@ -16,7 +18,7 @@ import javax.swing.WindowConstants;
 public class loginPage {
 	static JFrame f = new JFrame("Login");
 	static Boolean skipLogin = false;
-	
+	Map<String, String> userList = new HashMap<String, String>(); 
 	
 	public static void closeFrame() {
 		f.dispose();
@@ -36,6 +38,16 @@ public class loginPage {
 			input.close();
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try {
+			Scanner input = new Scanner(new File("data\\userData"));
+			while(input.hasNext()) {
+				System.out.println(input.next());
+			}
+			input.close();
+		}catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 		}
 		

@@ -1,6 +1,6 @@
-user: Ben
-password: Randomness21!
-isAdmin: true 
-user: Jim 
-password: Metroid. 
-isAdmin: false 
+user:Ben
+password:Randomness21!
+isAdmin:true 
+user:Jim 
+password:Metroid. 
+isAdmin:false 
