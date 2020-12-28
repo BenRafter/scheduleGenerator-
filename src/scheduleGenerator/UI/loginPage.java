@@ -3,6 +3,9 @@ package scheduleGenerator.UI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -11,9 +14,30 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 public class loginPage {
+	static JFrame f = new JFrame("Login");
+	static Boolean skipLogin = false;
+	
+	
+	public static void closeFrame() {
+		f.dispose();
+	}
 	
 	public static void startLogin() {
-		JFrame f = new JFrame("Login");
+		try {
+			Scanner input = new Scanner( new File("settings\\settingsFile"));
+			String skip = input.nextLine().toString(); 
+			skip = skip.substring(10);
+			int skip2 = Integer.parseInt(skip); 
+			if(skip2 == 0) {
+				skipLogin = false;
+			}else if(skip2 == 1) {
+				skipLogin = true;
+			}
+			input.close();
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		JLabel userLabel, passLabel; 
 		userLabel = new JLabel("Enter username: ");
@@ -39,6 +63,9 @@ public class loginPage {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(userName.getText()); 
 				System.out.println(password.getText());
+				mainPage temp = new mainPage();
+				temp.startMainpage();
+				closeFrame();
 			}
 		});
 		f.add(login);
@@ -47,7 +74,14 @@ public class loginPage {
 		f.setLayout(null);
 		f.setVisible(true);
 		f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		
+		if(skipLogin == true) {
+			mainPage temp = new mainPage();
+			temp.startMainpage();
+			closeFrame();
+		}
 	}
+
 	
 	public static void main(String[] args) {
 		startLogin(); 
