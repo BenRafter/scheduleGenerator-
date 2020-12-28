@@ -1,6 +1,3 @@
-user:Ben
-password:Randomness21!
-isAdmin:true 
-user:Jim 
-password:Metroid. 
-isAdmin:false 
+user:Ben:password;Randomness21!;isAdmin,true
+user:JimboSlice:password;Metroid.;isAdmin,false
+user:James:password;Xenoblade21!;isAdmin,true

@@ -15,10 +15,13 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
+import scheduleGenerator.storage.overseer;
+
 public class loginPage {
 	static JFrame f = new JFrame("Login");
 	static Boolean skipLogin = false;
-	Map<String, String> userList = new HashMap<String, String>(); 
+	static Map<String, String> userList = new HashMap<String, String>(); 
+	overseer currentUser;
 	
 	public static void closeFrame() {
 		f.dispose();
@@ -43,8 +46,18 @@ public class loginPage {
 		
 		try {
 			Scanner input = new Scanner(new File("data\\userData"));
+			String curLine = "";
 			while(input.hasNext()) {
-				System.out.println(input.next());
+				//ToDo: Make this section cleaner 
+				//This section looks into the userData file and grabs all users and adds them to the userList 
+				curLine=input.next().toString();
+				String user = curLine.substring(curLine.indexOf(":")+1);
+				user = user.substring(0, user.indexOf(":"));
+				String password = curLine.substring(curLine.indexOf(";")+1);
+				password = password.substring(0, password.indexOf(";"));
+				String isAdmin = curLine.substring(curLine.indexOf(",")+1);
+				String value = password + " " + isAdmin;
+				userList.put(user, value);
 			}
 			input.close();
 		}catch (FileNotFoundException e1) {
@@ -69,15 +82,36 @@ public class loginPage {
 		password.setBounds(150, 150, 150, 40);
 		f.add(password);
 		
+		JLabel statusLabel = new JLabel("Welcome to the home page");
+		statusLabel.setBounds(50,50,500,40);
+		f.add(statusLabel);
+		
 		JButton login = new JButton("Login");
 		login.setBounds(150, 200, 100, 40);
 		login.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(userName.getText()); 
-				System.out.println(password.getText());
-				mainPage temp = new mainPage();
-				temp.startMainpage();
-				closeFrame();
+				Boolean userFound = false;
+				String user = userName.getText();
+				String passWord = password.getText();
+				for(Map.Entry entry : userList.entrySet()) {
+					String listUser = (String) entry.getKey(); 
+					String listPassword = (String) entry.getValue();
+					System.out.println(listUser);
+					System.out.println(listPassword);
+					listPassword = listPassword.substring(0, listPassword.indexOf(" "));
+					System.out.println(listPassword);
+					if(user.equals(listUser) && passWord.equals(listPassword)) {
+						userFound = true;
+					}
+				}
+				if(userFound == false) {
+					statusLabel.setText("User or password wrong");
+				}else {
+					statusLabel.setText("User found");
+					mainPage temp = new mainPage(); 
+					temp.startMainpage();
+					closeFrame();
+				}
 			}
 		});
 		f.add(login);
