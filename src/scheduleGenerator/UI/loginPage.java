@@ -96,10 +96,9 @@ public class loginPage {
 				for(Map.Entry entry : userList.entrySet()) {
 					String listUser = (String) entry.getKey(); 
 					String listPassword = (String) entry.getValue();
-					System.out.println(listUser);
-					System.out.println(listPassword);
 					listPassword = listPassword.substring(0, listPassword.indexOf(" "));
-					System.out.println(listPassword);
+					listPassword = listPassword.replaceAll("\\s", "");
+					System.out.println(listPassword.equals(passWord));
 					if(user.equals(listUser) && passWord.equals(listPassword)) {
 						userFound = true;
 					}
