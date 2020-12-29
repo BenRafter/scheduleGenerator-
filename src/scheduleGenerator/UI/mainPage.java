@@ -29,16 +29,14 @@ public class mainPage {
 	public void startMainpage() {	
 		JLabel nameLabel = new JLabel("Current user: " + currentUser.getUsername());
 		nameLabel.setBounds(0, 150, 300, 50);
-		if(colorPallet == 2) {
-			nameLabel.setForeground(Color.white);
-		}
 		f.add(nameLabel);
 		
-		JLabel adminLabel = new JLabel("Admin status: " + currentUser.getAdminStatus());
+		JLabel greetingLabel = new JLabel("Welcome to the home page! Hover over a button to see what it does!");
+		greetingLabel.setBounds(105, 0, 500, 50);
+		f.add(greetingLabel);
+		
+		JLabel adminLabel = new JLabel("Is admin: " + currentUser.getAdminStatus());
 		adminLabel.setBounds(0, 200, 150, 50);
-		if(colorPallet == 2) {
-			adminLabel.setForeground(Color.white);
-		}
 		f.add(adminLabel);
 		
 		JButton logoutButton = new JButton("Log out");
@@ -46,7 +44,6 @@ public class mainPage {
 		logoutButton.setToolTipText("Click me to return to the login screen");
 		logoutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Logout pressed");
 				loginPage temp = new loginPage(); 
 				temp.startLogin();
 				closeFrame();
@@ -66,14 +63,20 @@ public class mainPage {
 		
 		//Settings change only for admins 
 		JButton settingsButton = new JButton("Settings");
-		settingsButton.setToolTipText("Click me to change the program settings!");
+		settingsButton.setToolTipText("Click me to change the program settings! Only usable by an admin!");
 		settingsButton.setBounds(0, 100, 100, 50);
 		settingsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Settings button clicked");
+				settingsPage temp = new settingsPage(colorPallet, currentUser);
+				temp.startSettingsPage();
+				closeFrame();
 			}
 		});
 		f.add(settingsButton);
+		if(!currentUser.getAdminStatus()) {
+			settingsButton.setEnabled(false);
+		}
 		
 		f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		f.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -82,6 +85,9 @@ public class mainPage {
 			f.getContentPane().setBackground(Color.GRAY);
 		}else if(colorPallet == 2) {
 			f.getContentPane().setBackground(Color.black);
+			adminLabel.setForeground(Color.white);
+			nameLabel.setForeground(Color.white);
+			greetingLabel.setForeground(Color.white);
 		}
 		f.setLayout(null);
 		f.setVisible(true);

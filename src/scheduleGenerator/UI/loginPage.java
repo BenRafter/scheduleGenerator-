@@ -92,7 +92,7 @@ public class loginPage {
 		password.setBounds(150, 150, 150, 40);
 		f.add(password);
 		
-		JLabel statusLabel = new JLabel("Welcome to the home page");
+		JLabel statusLabel = new JLabel("Welcome to the login page");
 		statusLabel.setBounds(50,50,500,40);
 		if(colorPallet == 2) {
 			statusLabel.setForeground(Color.white);
@@ -102,6 +102,7 @@ public class loginPage {
 		JButton login = new JButton("Login");
 		login.setBounds(150, 200, 100, 40);
 		login.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent e) {
 				Boolean userFound = false;
 				String user = userName.getText();
@@ -110,6 +111,12 @@ public class loginPage {
 				for(Map.Entry entry : userList.entrySet()) {
 					String listUser = (String) entry.getKey(); 
 					String listPassword = (String) entry.getValue();
+					String temp = listPassword.substring(listPassword.indexOf(" ")+1);
+					if(temp.equals("true")) {
+						isAdmin = true;
+					}else if(temp.equals("false")) {
+						isAdmin = false;
+					}
 					listPassword = listPassword.substring(0, listPassword.indexOf(" "));
 					listPassword = listPassword.replaceAll("\\s", "");
 					if(user.equals(listUser) && passWord.equals(listPassword)) {
@@ -119,6 +126,18 @@ public class loginPage {
 				if(userFound == false) {
 					JOptionPane.showMessageDialog(null, "Username or Password wrong");
 				}else {
+					System.out.println(isAdmin);
+					for(Map.Entry entry : userList.entrySet()) {
+						if(entry.getKey().equals(user)) {
+							String temp = (String) entry.getValue();
+							temp = temp.substring(temp.indexOf(" ")+1);
+							if(temp.equals("true")) {
+								isAdmin = true;
+							}else if(temp.equals("false")) {
+								isAdmin = false;
+							}
+						}
+					}
 					currentUser = new overseer(user, passWord, isAdmin);
 					mainPage temp = new mainPage(colorPallet, currentUser); 
 					temp.startMainpage();
