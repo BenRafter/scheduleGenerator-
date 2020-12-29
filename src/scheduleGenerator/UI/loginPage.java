@@ -126,7 +126,6 @@ public class loginPage {
 				if(userFound == false) {
 					JOptionPane.showMessageDialog(null, "Username or Password wrong");
 				}else {
-					System.out.println(isAdmin);
 					for(Map.Entry entry : userList.entrySet()) {
 						if(entry.getKey().equals(user)) {
 							String temp = (String) entry.getValue();

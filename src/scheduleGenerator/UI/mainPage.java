@@ -67,7 +67,6 @@ public class mainPage {
 		settingsButton.setBounds(0, 100, 100, 50);
 		settingsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Settings button clicked");
 				settingsPage temp = new settingsPage(colorPallet, currentUser);
 				temp.startSettingsPage();
 				closeFrame();
