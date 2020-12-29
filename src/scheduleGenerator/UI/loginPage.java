@@ -23,7 +23,7 @@ public class loginPage {
 	static JFrame f = new JFrame("Login");
 	static Boolean skipLogin = false;
 	static Map<String, String> userList = new HashMap<String, String>(); 
-	overseer currentUser;
+	static overseer currentUser;
 	static int colorPallet = 0;
 	
 	public static void closeFrame() {
@@ -43,10 +43,8 @@ public class loginPage {
 			}
 			String curLine = input.next().toString();
 			colorPallet = Integer.parseInt(curLine.substring(12));
-			System.out.println(colorPallet);
 			input.close();
 		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
@@ -108,6 +106,7 @@ public class loginPage {
 				Boolean userFound = false;
 				String user = userName.getText();
 				String passWord = password.getText();
+				Boolean isAdmin = false;
 				for(Map.Entry entry : userList.entrySet()) {
 					String listUser = (String) entry.getKey(); 
 					String listPassword = (String) entry.getValue();
@@ -120,7 +119,8 @@ public class loginPage {
 				if(userFound == false) {
 					JOptionPane.showMessageDialog(null, "Username or Password wrong");
 				}else {
-					mainPage temp = new mainPage(colorPallet); 
+					currentUser = new overseer(user, passWord, isAdmin);
+					mainPage temp = new mainPage(colorPallet, currentUser); 
 					temp.startMainpage();
 					closeFrame();
 				}
@@ -138,11 +138,11 @@ public class loginPage {
 		f.setVisible(true);
 		f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		
-		if(skipLogin == true) {
-			mainPage temp = new mainPage(colorPallet);
-			temp.startMainpage();
-			closeFrame();
-		}
+		//if(skipLogin == true) {
+			//mainPage temp = new mainPage(colorPallet);
+			//temp.startMainpage();
+			//closeFrame();
+		//}
 	}
 
 	
