@@ -12,6 +12,7 @@ import java.util.Scanner;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
@@ -74,11 +75,11 @@ public class loginPage {
 		f.add(passLabel); 
 		
 		JTextField userName, password; 
-		userName = new JTextField();
+		userName = new JTextField("");
 		userName.setBounds(150,100,150,40);
 		f.add(userName); 
 		
-		password = new JTextField();
+		password = new JTextField("");
 		password.setBounds(150, 150, 150, 40);
 		f.add(password);
 		
@@ -98,15 +99,13 @@ public class loginPage {
 					String listPassword = (String) entry.getValue();
 					listPassword = listPassword.substring(0, listPassword.indexOf(" "));
 					listPassword = listPassword.replaceAll("\\s", "");
-					System.out.println(listPassword.equals(passWord));
 					if(user.equals(listUser) && passWord.equals(listPassword)) {
 						userFound = true;
 					}
 				}
 				if(userFound == false) {
-					statusLabel.setText("User or password wrong");
+					JOptionPane.showMessageDialog(null, "Username or Password wrong");
 				}else {
-					statusLabel.setText("User found");
 					mainPage temp = new mainPage(); 
 					temp.startMainpage();
 					closeFrame();
