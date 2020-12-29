@@ -1,6 +1,7 @@
 //This page is where the user will log in to the schedule maker. Can be set to ignore. 
 package scheduleGenerator.UI;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -23,6 +24,7 @@ public class loginPage {
 	static Boolean skipLogin = false;
 	static Map<String, String> userList = new HashMap<String, String>(); 
 	overseer currentUser;
+	static int colorPallet = 0;
 	
 	public static void closeFrame() {
 		f.dispose();
@@ -39,6 +41,9 @@ public class loginPage {
 			}else if(skip2 == 1) {
 				skipLogin = true;
 			}
+			String curLine = input.next().toString();
+			colorPallet = Integer.parseInt(curLine.substring(12));
+			System.out.println(colorPallet);
 			input.close();
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
@@ -67,10 +72,16 @@ public class loginPage {
 		
 		JLabel userLabel, passLabel; 
 		userLabel = new JLabel("Enter username: ");
+		if(colorPallet == 2) {
+			userLabel.setForeground(Color.white);
+		}
 		userLabel.setBounds(50,100,100,40);
 		f.add(userLabel); 
 		
 		passLabel = new JLabel("Enter password: ");
+		if(colorPallet == 2) {
+			passLabel.setForeground(Color.white);
+		}
 		passLabel.setBounds(50,150,100,40);
 		f.add(passLabel); 
 		
@@ -85,6 +96,9 @@ public class loginPage {
 		
 		JLabel statusLabel = new JLabel("Welcome to the home page");
 		statusLabel.setBounds(50,50,500,40);
+		if(colorPallet == 2) {
+			statusLabel.setForeground(Color.white);
+		}
 		f.add(statusLabel);
 		
 		JButton login = new JButton("Login");
@@ -106,7 +120,7 @@ public class loginPage {
 				if(userFound == false) {
 					JOptionPane.showMessageDialog(null, "Username or Password wrong");
 				}else {
-					mainPage temp = new mainPage(); 
+					mainPage temp = new mainPage(colorPallet); 
 					temp.startMainpage();
 					closeFrame();
 				}
@@ -114,13 +128,18 @@ public class loginPage {
 		});
 		f.add(login);
 		
+		if(colorPallet == 1) {
+			f.getContentPane().setBackground(Color.GRAY);
+		}else if(colorPallet == 2) {
+			f.getContentPane().setBackground(Color.BLACK);
+		}
 		f.setSize(400, 500);
 		f.setLayout(null);
 		f.setVisible(true);
 		f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		
 		if(skipLogin == true) {
-			mainPage temp = new mainPage();
+			mainPage temp = new mainPage(colorPallet);
 			temp.startMainpage();
 			closeFrame();
 		}
