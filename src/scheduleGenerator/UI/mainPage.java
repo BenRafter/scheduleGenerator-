@@ -3,6 +3,9 @@ package scheduleGenerator.UI;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileWriter;
+import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,9 +20,49 @@ public class mainPage {
 	int colorPallet = 0;
 	overseer currentUser;
 	
+	//Finds the prevUser line in the settings file 
+	public static String getTargetLine() {
+		String ret = "";
+		
+		try {
+			String filePath = "settings\\settingsFile";
+			Scanner sc = new Scanner(new File(filePath));
+			ret = sc.nextLine().toString();
+			ret = sc.next().toString();
+			ret = sc.next().toString();
+			sc.close();
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		return ret;
+	}
+	
+	//replaces the prevUser line in the settings with the correct user
+	public void replaceLine(String replaceWith) {
+		try {
+			String filePath = "settings\\settingsFile";
+			Scanner sc = new Scanner(new File(filePath));
+			StringBuffer buffer = new StringBuffer();
+			while(sc.hasNextLine()) {
+				buffer.append(sc.nextLine()+System.lineSeparator());
+			}
+			String fileContents = buffer.toString();
+			sc.close();
+			String targetLine = getTargetLine();
+			fileContents = fileContents.replaceAll(targetLine, replaceWith);
+			FileWriter writer = new FileWriter(filePath);
+			writer.append(fileContents);
+			writer.flush();
+			writer.close();
+		}catch(Exception e) {
+			System.out.println("Problem reading file");
+		}
+	}
+	
 	public mainPage(int _colorPallet, overseer _currentUser) {
 		colorPallet = _colorPallet;
 		currentUser = _currentUser;
+		replaceLine("prevUser:"+currentUser.getUsername()+":prevPass:"+currentUser.getPassword()+":prevIsAdmin:"+currentUser.getAdminStatus()+":");
 	}
 	
 	public void closeFrame() {

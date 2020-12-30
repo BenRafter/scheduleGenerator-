@@ -30,8 +30,24 @@ public class loginPage {
 		f.dispose();
 	}
 	
+	//This function is used to get the data between :: in the settings file
+	public static String extracter(String toExtract) {
+		String ret = "";
+		ret = toExtract.substring(toExtract.indexOf(":")+1);
+		ret = ret.substring(0, ret.indexOf(":"));
+		return ret;
+	}
+	
+	//Should be called on curLine after toExtract. Removes the extracted part from curLine
+	public static String shredder(String toShred) {
+		String ret = "";
+		ret = toShred.substring(toShred.indexOf(":")+1);
+		ret=ret.substring(ret.indexOf(":")+1);
+		return ret;
+	}
+	
 	public static void startLogin() {
-		try {
+		try {//Checking if skipLogin active and what the color pallet should be 
 			Scanner input = new Scanner( new File("settings\\settingsFile"));
 			String skip = input.nextLine().toString(); 
 			skip = skip.substring(10);
@@ -43,6 +59,12 @@ public class loginPage {
 			}
 			String curLine = input.next().toString();
 			colorPallet = Integer.parseInt(curLine.substring(12));
+			curLine = input.next().toString();
+			String prevUser = extracter(curLine);
+			curLine = shredder(curLine);
+			String prevPass = extracter(curLine);
+			curLine=shredder(curLine);
+			String prevIsAdmin = extracter(curLine);
 			input.close();
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
