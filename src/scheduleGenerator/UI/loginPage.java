@@ -24,6 +24,7 @@ public class loginPage {
 	static Boolean skipLogin = false;
 	static Map<String, String> userList = new HashMap<String, String>(); 
 	static overseer currentUser;
+	static overseer prevUser;
 	static int colorPallet = 0;
 	
 	public static void closeFrame() {
@@ -60,12 +61,17 @@ public class loginPage {
 			String curLine = input.next().toString();
 			colorPallet = Integer.parseInt(curLine.substring(12));
 			curLine = input.next().toString();
-			String prevUser = extracter(curLine);
+			String prevUsername = extracter(curLine);
 			curLine = shredder(curLine);
 			String prevPass = extracter(curLine);
 			curLine=shredder(curLine);
 			String prevIsAdmin = extracter(curLine);
 			input.close();
+			if(prevIsAdmin.equals("true")) {
+				prevUser = new overseer(prevUsername, prevPass, true);
+			}else if(prevIsAdmin.equals("false")) {
+				prevUser = new overseer(prevUsername, prevPass, false);
+			}
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 		}
@@ -177,12 +183,12 @@ public class loginPage {
 		f.setLayout(null);
 		f.setVisible(true);
 		f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		
-		//if(skipLogin == true) {
-			//mainPage temp = new mainPage(colorPallet);
-			//temp.startMainpage();
-			//closeFrame();
-		//}
+
+		if(skipLogin == true) {
+			mainPage temp = new mainPage(colorPallet, prevUser);
+			temp.startMainpage();
+			closeFrame();
+		}
 	}
 
 	

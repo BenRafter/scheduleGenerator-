@@ -1,3 +1,4 @@
+//This page is where the user changes settings. Can be used by admins
 package scheduleGenerator.UI;
 
 import java.awt.Color;
@@ -23,6 +24,7 @@ public class settingsPage {
 	overseer currentUser;
 	int colorPallet = 0;
 	int colorPalletChange = 0;
+	int skipLoginInt = 0;
 	
 	public void replaceLine(String replaceWith) {
 		try {
@@ -74,19 +76,7 @@ public class settingsPage {
 		});
 		f.add(exitButton);
 	
-		JButton applyButton = new JButton("Apply");
-		applyButton.setBounds(100,0,100,50);
-		applyButton.setToolTipText("Click me to apply settings changes!");
-		applyButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(colorPalletChange != colorPallet) {
-					changesMade = true;
-				}
-				JOptionPane.showMessageDialog(null, "Changes applied! The program will need to be closed and reopened to apply some changes!");
-			}
-		});
-		f.add(applyButton);
-		
+
 		JLabel themeLabel = new JLabel("Theme");
 		themeLabel.setBounds(0, 50, 100, 50);
 		f.add(themeLabel);
@@ -134,6 +124,68 @@ public class settingsPage {
 			themeMidnight.setSelected(true);
 		}
 		
+		JRadioButton skipLogin = new JRadioButton("Skip Login");
+		skipLogin.setBounds(50, 100, 100, 50);
+		try {
+			Scanner input = new Scanner(new File("settings\\settingsFile"));
+			String skip = input.nextLine().toString();
+			skip = skip.substring(10);
+			int skip2 = Integer.parseInt(skip);
+			if(skip2 == 0) {
+				skipLogin.setSelected(false);
+				skipLoginInt = 0;
+			}else if(skip2 == 1) {
+				skipLogin.setSelected(true);
+				skipLoginInt = 1;
+			}
+			input.close();
+		}catch (Exception e) {
+			System.out.println(e);
+		}
+		f.add(skipLogin);
+		
+		JButton applyButton = new JButton("Apply");
+		applyButton.setBounds(100,0,100,50);
+		applyButton.setToolTipText("Click me to apply settings changes!");
+		applyButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String newSkipLogin = "";
+				if(skipLogin.isSelected()) {
+					newSkipLogin = "skipLogin:1";
+				}else {
+					newSkipLogin = "skipLogin:0";
+				}
+				try {
+					String filePath = "settings\\settingsFile";
+					Scanner sc = new Scanner(new File(filePath));
+					StringBuffer buffer = new StringBuffer();
+					while(sc.hasNextLine()) {
+						buffer.append(sc.nextLine()+System.lineSeparator());
+					}
+					String fileContents = buffer.toString();
+					sc.close();
+					String targetLine="";
+					if(skipLoginInt == 0) {
+						targetLine = "skipLogin:0";
+					}else if(skipLoginInt == 1) {
+						targetLine = "skipLogin:1";
+					}
+					fileContents = fileContents.replaceAll(targetLine, newSkipLogin);
+					FileWriter writer = new FileWriter(filePath);
+					writer.append(fileContents);
+					writer.flush();
+					writer.close();
+				}catch (Exception r) {
+					System.out.println(r);
+				}
+				if(colorPalletChange != colorPallet) {
+					changesMade = true;
+				}
+				JOptionPane.showMessageDialog(null, "Changes applied! The program will need to be closed and reopened to apply some changes!");
+			}
+		});
+		f.add(applyButton);
+		
 		f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		f.setSize(400,400);
 		f.setUndecorated(false);
@@ -148,6 +200,8 @@ public class settingsPage {
 			themeTwilight.setForeground(Color.white);
 			themeMidnight.setBackground(Color.black);
 			themeMidnight.setForeground(Color.white);
+			skipLogin.setForeground(Color.white);
+			skipLogin.setBackground(Color.black);
 		}
 		f.setLayout(null);
 		f.setVisible(true);
