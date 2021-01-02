@@ -73,7 +73,7 @@ public class mainPage {
 		f.add(nameLabel);
 		
 		JLabel greetingLabel = new JLabel("Welcome to the home page! Hover over a button to see what it does!");
-		greetingLabel.setBounds(105, 0, 500, 50);
+		greetingLabel.setBounds(0, 250, 500, 50);
 		f.add(greetingLabel);
 		
 		JLabel adminLabel = new JLabel("Is admin: " + currentUser.getAdminStatus());
@@ -91,6 +91,18 @@ public class mainPage {
 			}
 		});
 		f.add(logoutButton);
+		
+		JButton newTaskButton = new JButton("New Task");
+		newTaskButton.setBounds(100,0,100,50);
+		newTaskButton.setToolTipText("Click me to create a new task!");
+		newTaskButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				createNewTaskPage temp = new createNewTaskPage(colorPallet, currentUser);
+				temp.startCreateNewTaskPage();
+				closeFrame();
+			}
+		});
+		f.add(newTaskButton);
 		
 		JButton quitButton = new JButton("Quit");
 		quitButton.setToolTipText("Click me to return to the desktop");

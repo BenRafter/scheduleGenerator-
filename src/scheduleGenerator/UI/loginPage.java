@@ -183,7 +183,6 @@ public class loginPage {
 		f.setLayout(null);
 		f.setVisible(true);
 		f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
 		if(skipLogin == true) {
 			mainPage temp = new mainPage(colorPallet, prevUser);
 			temp.startMainpage();
