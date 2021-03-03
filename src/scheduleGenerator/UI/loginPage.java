@@ -136,6 +136,7 @@ public class loginPage {
 				String user = userName.getText();
 				String passWord = password.getText();
 				Boolean isAdmin = false;
+				Boolean dbExists = false;
 				for(Map.Entry entry : userList.entrySet()) {
 					String listUser = (String) entry.getKey(); 
 					String listPassword = (String) entry.getValue();

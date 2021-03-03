@@ -7,6 +7,10 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -78,8 +82,8 @@ public class createNewTaskPage {
 		completionTime.setBounds(0, 150, 100, 50);
 		f.add(completionTime);
 		
-		timeField = new JTextField("MM:HH");
-		timeField.setBounds(100,150,100,50);
+		timeField = new JTextField("HH:MM 24hr format");
+		timeField.setBounds(100,150,130,50);
 		timeField.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				timeField.setText("");
@@ -93,6 +97,33 @@ public class createNewTaskPage {
 		createButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Made the thing");
+				try {
+					Scanner reader = new Scanner(new File("data\\existingDataBases"));
+					String curLine = "";
+					Boolean foundUser = false;
+					while(reader.hasNext()) {
+						curLine = reader.next().toString();
+						if(curLine.equals(_currentUser.getUsername())) {
+							foundUser = true;
+						}
+					}
+					if(foundUser == false) {
+						System.out.println("User does not have existing database, creating one now");
+						FileWriter writer = new FileWriter("data\\existingDataBases", true);
+						writer.write(_currentUser.getUsername() + "\n");
+						writer.close();
+						
+						String fileName = "data/dataBases/" + _currentUser.getUsername() + ".txt";
+						System.out.println(fileName);
+						File tempFile = new File(fileName);
+						tempFile.createNewFile();
+					}else {
+						System.out.println("User has existing database");
+					}
+					reader.close();
+				}catch (Exception f) {
+					System.out.println("Failed to read existingDataBases text file properly");
+				}
 			}
 		});
 		f.add(createButton);

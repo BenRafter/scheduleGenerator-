@@ -2,11 +2,8 @@ package scheduleGenerator.testing;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
-
-import junit.framework.TestCase;
 import scheduleGenerator.storage.scheduleItem;
 
 class scheduleItemTest {
