@@ -3,13 +3,12 @@ package scheduleGenerator.UI;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 import javax.swing.JButton;
@@ -21,6 +20,17 @@ import javax.swing.WindowConstants;
 import scheduleGenerator.storage.overseer;
 
 public class createNewTaskPage {
+	
+	public static void print(Object ret) {
+		System.out.println(ret);
+	}
+	
+	public Boolean isLegalDate (String x) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		sdf.setLenient(false);
+		return sdf.parse(x, new ParsePosition(0)) != null;
+	}
+	
 	JFrame f = new JFrame("Create new task");
 	int _colorPallet;
 	overseer _currentUser;
@@ -96,33 +106,47 @@ public class createNewTaskPage {
 		createButton.setBounds(0, 200, 100, 50);
 		createButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Boolean goodItem = true;//If this is false won't allow the creation of a new item
 				System.out.println("Made the thing");
-				try {
-					Scanner reader = new Scanner(new File("data\\existingDataBases"));
-					String curLine = "";
-					Boolean foundUser = false;
-					while(reader.hasNext()) {
-						curLine = reader.next().toString();
-						if(curLine.equals(_currentUser.getUsername())) {
-							foundUser = true;
+				String itemName = nameField.getText();
+				print(itemName);
+				String itemDescription = descField.getText();
+				print(itemDescription);
+				String itemDate = dateField.getText();
+				goodItem = isLegalDate(itemDate);
+				print(itemDate);
+				String itemTime = timeField.getText();
+				print(itemTime);
+				if(goodItem == true) {
+					try {
+						Scanner reader = new Scanner(new File("data\\existingDataBases"));
+						String curLine = "";
+						Boolean foundUser = false;
+						while(reader.hasNext()) {
+							curLine = reader.next().toString();
+							if(curLine.equals(_currentUser.getUsername())) {
+								foundUser = true;
+							}
 						}
-					}
-					if(foundUser == false) {
-						System.out.println("User does not have existing database, creating one now");
-						FileWriter writer = new FileWriter("data\\existingDataBases", true);
-						writer.write(_currentUser.getUsername() + "\n");
-						writer.close();
+						if(foundUser == false) {
+							print("User does not have existing database, creating one now");
+							FileWriter writer = new FileWriter("data\\existingDataBases", true);
+							writer.write(_currentUser.getUsername() + "\n");
+							writer.close();
 						
-						String fileName = "data/dataBases/" + _currentUser.getUsername() + ".txt";
-						System.out.println(fileName);
-						File tempFile = new File(fileName);
-						tempFile.createNewFile();
-					}else {
-						System.out.println("User has existing database");
+							String fileName = "data/dataBases/" + _currentUser.getUsername() + ".txt";
+							System.out.println(fileName);
+							File tempFile = new File(fileName);
+							tempFile.createNewFile();
+						}else {
+							print("User has existing database");
+						}
+						reader.close();
+					}catch (Exception f) {
+						print("Failed to read existingDataBases text file properly");
 					}
-					reader.close();
-				}catch (Exception f) {
-					System.out.println("Failed to read existingDataBases text file properly");
+				}else {
+					print("Item doesn't work");
 				}
 			}
 		});
