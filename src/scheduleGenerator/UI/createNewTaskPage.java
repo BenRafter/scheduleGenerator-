@@ -137,9 +137,18 @@ public class createNewTaskPage {
 							String fileName = "data/dataBases/" + _currentUser.getUsername() + ".txt";
 							System.out.println(fileName);
 							File tempFile = new File(fileName);
+							FileWriter writer2 = new FileWriter(tempFile, true);
+							String toWrite = itemName + ", " + itemDescription + ", " + itemDate + ", " + itemTime + "\n";
+							writer2.write(toWrite);
+							writer2.write("test");
 							tempFile.createNewFile();
+							writer2.close();
 						}else {
 							print("User has existing database");
+							String filePath = "data\\dataBases\\" + _currentUser.getUsername() + ".txt";
+							FileWriter writer = new FileWriter(filePath);
+							writer.write("Text \n");
+							writer.close();
 						}
 						reader.close();
 					}catch (Exception f) {
