@@ -26,8 +26,11 @@ public class loginPage {
 	static overseer currentUser;
 	static overseer prevUser;
 	static int colorPallet = 0;
+	public static JTextField userName, password; 
 	
 	public static void closeFrame() {
+		userName.setText("");
+		password.setText("");
 		f.dispose();
 	}
 	
@@ -110,8 +113,7 @@ public class loginPage {
 		}
 		passLabel.setBounds(50,150,100,40);
 		f.add(passLabel); 
-		
-		JTextField userName, password; 
+		 
 		userName = new JTextField("");
 		userName.setBounds(150,100,150,40);
 		f.add(userName); 
