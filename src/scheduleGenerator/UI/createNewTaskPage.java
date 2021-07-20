@@ -7,8 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileWriter;
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 import javax.swing.JButton;
@@ -41,8 +40,8 @@ public class createNewTaskPage {
 	}
 	
 	public void startCreateNewTaskPage() {
-		JLabel taskName, taskDescription, completionDate, completionTime;
-		JTextField nameField, descField, timeField;
+		JLabel taskName, taskDescription, completionDate;
+		JTextField nameField, descField;
 		JButton chooseDate, createButton, quitButton;
 		String dateToSet = "";
 		
@@ -86,27 +85,6 @@ public class createNewTaskPage {
 			}
 		});
 		f.add(chooseDate);   
-		/**dateField = new JTextField("YYYY-MM-DD");
-		dateField.setBounds(100, 100, 100, 50);
-		dateField.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				dateField.setText("");
-			}
-		});
-		f.add(dateField);**/
-		
-		completionTime = new JLabel("Time due");
-		completionTime.setBounds(0, 150, 100, 50);
-		f.add(completionTime);
-		
-		timeField = new JTextField("HH:MM 24hr format");
-		timeField.setBounds(100,150,130,50);
-		timeField.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				timeField.setText("");
-			}
-		});
-		f.add(timeField);
 		
 		createButton = new JButton("Create");
 		createButton.setToolTipText("Click me to create task");
@@ -119,8 +97,6 @@ public class createNewTaskPage {
 				print(itemDescription);
 				String itemDate = completionDate.getText();
 				print(itemDate);
-				String itemTime = timeField.getText();
-				print(itemTime);
 					try {
 						Scanner reader = new Scanner(new File("data\\existingDataBases"));
 						String curLine = "";
@@ -139,17 +115,18 @@ public class createNewTaskPage {
 							String fileName = "data\\dataBases\\" + _currentUser.getUsername() + ".txt";
 							System.out.println(fileName);
 							File tempFile = new File(fileName);
-							FileWriter writer2 = new FileWriter(tempFile, true);
-							String toWrite = itemName + ", " + itemDescription + ", " + itemDate + ", " + itemTime + "\n";
+							PrintWriter writer2 = new PrintWriter(new FileWriter(tempFile, true));
+							String toWrite = itemName + ", " + itemDescription + ", " + itemDate+ "\n";
 							writer2.write(toWrite);
-							writer2.write("test");
 							tempFile.createNewFile();
 							writer2.close();
 						}else {
 							print("User has existing database");
 							String filePath = "data\\dataBases\\" + _currentUser.getUsername() + ".txt";
-							FileWriter writer = new FileWriter(filePath);
-							String toWrite = itemName +", " + itemDescription + ", " + itemDate + ", " + itemTime + "\n";
+							//FileWriter writer = new FileWriter(filePath);
+							PrintWriter writer = new PrintWriter(new FileWriter(filePath, true));
+							String toWrite = itemName +", " + itemDescription + ", " + itemDate + "\n";
+							writer.write(" \n");
 							writer.write(toWrite);
 							writer.close();
 						}
@@ -184,7 +161,6 @@ public class createNewTaskPage {
 			taskName.setForeground(Color.white);
 			taskDescription.setForeground(Color.white);
 			completionDate.setForeground(Color.white);
-			completionTime.setForeground(Color.white);
 		}
 	}
 }
