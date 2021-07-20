@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
+import scheduleGenerator.helpers.MainWindow;
 import scheduleGenerator.storage.overseer;
 
 public class createNewTaskPage {
@@ -26,7 +27,7 @@ public class createNewTaskPage {
 	}
 	
 	public Boolean isLegalDate (String x) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 		sdf.setLenient(false);
 		return sdf.parse(x, new ParsePosition(0)) != null;
 	}
@@ -46,8 +47,9 @@ public class createNewTaskPage {
 	
 	public void startCreateNewTaskPage() {
 		JLabel taskName, taskDescription, completionDate, completionTime;
-		JTextField nameField, descField, dateField, timeField;
-		JButton createButton, quitButton;
+		JTextField nameField, descField, timeField;
+		JButton chooseDate, createButton, quitButton;
+		String dateToSet = "";
 		
 		taskName = new JLabel("Task Name");
 		taskName.setBounds(0,0,100,50);
@@ -79,14 +81,24 @@ public class createNewTaskPage {
 		completionDate.setBounds(0, 100, 100, 50);
 		f.add(completionDate);
 		
-		dateField = new JTextField("YYYY-MM-DD");
+		chooseDate = new JButton("Date"); 
+		chooseDate.setBounds(100,100,100,50);
+		chooseDate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MainWindow temp = new MainWindow(); 
+				System.out.println(temp.run(completionDate)); 
+				System.out.println(dateToSet); 
+			}
+		});
+		f.add(chooseDate);   
+		/**dateField = new JTextField("YYYY-MM-DD");
 		dateField.setBounds(100, 100, 100, 50);
 		dateField.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				dateField.setText("");
 			}
 		});
-		f.add(dateField);
+		f.add(dateField);**/
 		
 		completionTime = new JLabel("Time due");
 		completionTime.setBounds(0, 150, 100, 50);
@@ -112,9 +124,9 @@ public class createNewTaskPage {
 				print(itemName);
 				String itemDescription = descField.getText();
 				print(itemDescription);
-				String itemDate = dateField.getText();
-				goodItem = isLegalDate(itemDate);
-				print(itemDate);
+				//String itemDate = dateField.getText();
+				//goodItem = isLegalDate(itemDate);
+				// print(itemDate);
 				String itemTime = timeField.getText();
 				print(itemTime);
 				if(goodItem == true) {
@@ -138,8 +150,8 @@ public class createNewTaskPage {
 							System.out.println(fileName);
 							File tempFile = new File(fileName);
 							FileWriter writer2 = new FileWriter(tempFile, true);
-							String toWrite = itemName + ", " + itemDescription + ", " + itemDate + ", " + itemTime + "\n";
-							writer2.write(toWrite);
+							//String toWrite = itemName + ", " + itemDescription + ", " + itemDate + ", " + itemTime + "\n";
+							//writer2.write(toWrite);
 							writer2.write("test");
 							tempFile.createNewFile();
 							writer2.close();
