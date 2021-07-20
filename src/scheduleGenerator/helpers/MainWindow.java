@@ -98,8 +98,6 @@ public class MainWindow extends JFrame implements PropertyChangeListener {
 			
 			submitButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					System.out.println("Submit clicked"); 
-					System.out.println(textField.getText()); 
 					_cntp.setText(textField.getText()); 
 					dispose(); 
 				}

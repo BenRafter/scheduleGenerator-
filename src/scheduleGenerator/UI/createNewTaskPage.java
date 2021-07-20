@@ -26,11 +26,6 @@ public class createNewTaskPage {
 		System.out.println(ret);
 	}
 	
-	public Boolean isLegalDate (String x) {
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-		sdf.setLenient(false);
-		return sdf.parse(x, new ParsePosition(0)) != null;
-	}
 	
 	JFrame f = new JFrame("Create new task");
 	int _colorPallet;
@@ -86,8 +81,8 @@ public class createNewTaskPage {
 		chooseDate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MainWindow temp = new MainWindow(); 
-				System.out.println(temp.run(completionDate)); 
-				System.out.println(dateToSet); 
+				temp.run(completionDate);
+				print(" ");
 			}
 		});
 		f.add(chooseDate);   
@@ -118,18 +113,14 @@ public class createNewTaskPage {
 		createButton.setBounds(0, 200, 100, 50);
 		createButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Boolean goodItem = true;//If this is false won't allow the creation of a new item
-				System.out.println("Made the thing");
 				String itemName = nameField.getText();
 				print(itemName);
 				String itemDescription = descField.getText();
 				print(itemDescription);
-				//String itemDate = dateField.getText();
-				//goodItem = isLegalDate(itemDate);
-				// print(itemDate);
+				String itemDate = completionDate.getText();
+				print(itemDate);
 				String itemTime = timeField.getText();
 				print(itemTime);
-				if(goodItem == true) {
 					try {
 						Scanner reader = new Scanner(new File("data\\existingDataBases"));
 						String curLine = "";
@@ -145,13 +136,12 @@ public class createNewTaskPage {
 							FileWriter writer = new FileWriter("data\\existingDataBases", true);
 							writer.write(_currentUser.getUsername() + "\n");
 							writer.close();
-						
-							String fileName = "data/dataBases/" + _currentUser.getUsername() + ".txt";
+							String fileName = "data\\dataBases\\" + _currentUser.getUsername() + ".txt";
 							System.out.println(fileName);
 							File tempFile = new File(fileName);
 							FileWriter writer2 = new FileWriter(tempFile, true);
-							//String toWrite = itemName + ", " + itemDescription + ", " + itemDate + ", " + itemTime + "\n";
-							//writer2.write(toWrite);
+							String toWrite = itemName + ", " + itemDescription + ", " + itemDate + ", " + itemTime + "\n";
+							writer2.write(toWrite);
 							writer2.write("test");
 							tempFile.createNewFile();
 							writer2.close();
@@ -159,16 +149,14 @@ public class createNewTaskPage {
 							print("User has existing database");
 							String filePath = "data\\dataBases\\" + _currentUser.getUsername() + ".txt";
 							FileWriter writer = new FileWriter(filePath);
-							writer.write("Text \n");
+							String toWrite = itemName +", " + itemDescription + ", " + itemDate + ", " + itemTime + "\n";
+							writer.write(toWrite);
 							writer.close();
 						}
 						reader.close();
 					}catch (Exception f) {
 						print("Failed to read existingDataBases text file properly");
 					}
-				}else {
-					print("Item doesn't work");
-				}
 			}
 		});
 		f.add(createButton);
