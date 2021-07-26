@@ -164,6 +164,19 @@ public class mainPage {
 		});
 		f.add(viewAllTasks);
 		
+		JButton editTasksButton = new JButton("Edit Tasks"); 
+		editTasksButton.setToolTipText("Click me to edit tasks for this user"); 
+		editTasksButton.setBounds(100, 100, 100, 50);
+		editTasksButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				print("editTasksButton pressed"); 
+				viewTasksPage temp = new viewTasksPage(colorPallet, currentUser); 
+				temp.startViewTasksPage();
+				closeFrame();
+			}
+		});
+		f.add(editTasksButton);
+		
 		JButton quitButton = new JButton("Quit");
 		quitButton.setToolTipText("Click me to return to the desktop");
 		quitButton.setBounds(0,50,100,50);

@@ -8,6 +8,8 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 import javax.swing.JButton;
@@ -116,8 +118,10 @@ public class createNewTaskPage {
 							System.out.println(fileName);
 							File tempFile = new File(fileName);
 							PrintWriter writer2 = new PrintWriter(new FileWriter(tempFile, true));
-							String toWrite = "ItemName: " + itemName + ", ItemDescription: " + itemDescription + ", DueDate: " + itemDate+ "\n";
-							writer2.write(toWrite);
+							DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");  
+							LocalDateTime now = LocalDateTime.now(); 
+							String toWrite = "Item Name: " + itemName + ", Item Description: " + itemDescription + ", Due Date: " + itemDate+ " Date Created: " + dtf.format(now) + "\n";
+							writer2.write(toWrite); 
 							tempFile.createNewFile();
 							writer2.close();
 						}else {
@@ -125,7 +129,9 @@ public class createNewTaskPage {
 							String filePath = "data\\dataBases\\" + _currentUser.getUsername() + ".txt";
 							//FileWriter writer = new FileWriter(filePath);
 							PrintWriter writer = new PrintWriter(new FileWriter(filePath, true));
-							String toWrite = "ItemName: " + itemName + ", ItemDescription: " + itemDescription + ", DueDate: " + itemDate+ "\n";
+							DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+							LocalDateTime now = LocalDateTime.now();
+							String toWrite = "Item Name: " + itemName + ", Item Description: " + itemDescription + ", Due Date: " + itemDate+ " Date Created: " + dtf.format(now) + "\n";
 							writer.write(" \n");
 							writer.write(toWrite);
 							writer.close();
