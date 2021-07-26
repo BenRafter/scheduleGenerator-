@@ -1,5 +1,0 @@
-ItemName: Test 1, ItemDescription: Description 1, DueDate: 7/27/21
- 
-ItemName: Test 2, ItemDescription: Description 2, DueDate: 7/28/21
- 
-ItemName: Name, ItemDescription: Description, DueDate: 7/21/21
