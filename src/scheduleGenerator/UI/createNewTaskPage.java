@@ -120,7 +120,7 @@ public class createNewTaskPage {
 							PrintWriter writer2 = new PrintWriter(new FileWriter(tempFile, true));
 							DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");  
 							LocalDateTime now = LocalDateTime.now(); 
-							String toWrite = "Item Name: " + itemName + ", Item Description: " + itemDescription + ", Due Date: " + itemDate+ " Date Created: " + dtf.format(now) + "\n";
+							String toWrite = "Item Name: " + itemName + ", Item Description: " + itemDescription + ", Due Date: " + itemDate+ " Date Created: " + dtf.format(now);
 							writer2.write(toWrite); 
 							tempFile.createNewFile();
 							writer2.close();
@@ -131,7 +131,7 @@ public class createNewTaskPage {
 							PrintWriter writer = new PrintWriter(new FileWriter(filePath, true));
 							DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 							LocalDateTime now = LocalDateTime.now();
-							String toWrite = "Item Name: " + itemName + ", Item Description: " + itemDescription + ", Due Date: " + itemDate+ " Date Created: " + dtf.format(now) + "\n";
+							String toWrite = "Item Name: " + itemName + ", Item Description: " + itemDescription + ", Due Date: " + itemDate+ " Date Created: " + dtf.format(now);
 							writer.write(" \n");
 							writer.write(toWrite);
 							writer.close();
