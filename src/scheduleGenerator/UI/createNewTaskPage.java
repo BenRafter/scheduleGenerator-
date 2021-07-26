@@ -116,7 +116,7 @@ public class createNewTaskPage {
 							System.out.println(fileName);
 							File tempFile = new File(fileName);
 							PrintWriter writer2 = new PrintWriter(new FileWriter(tempFile, true));
-							String toWrite = "Item name: " + itemName + ", Item Description: " + itemDescription + ", Due Date: " + itemDate+ "\n";
+							String toWrite = "ItemName: " + itemName + ", ItemDescription: " + itemDescription + ", DueDate: " + itemDate+ "\n";
 							writer2.write(toWrite);
 							tempFile.createNewFile();
 							writer2.close();
@@ -125,7 +125,7 @@ public class createNewTaskPage {
 							String filePath = "data\\dataBases\\" + _currentUser.getUsername() + ".txt";
 							//FileWriter writer = new FileWriter(filePath);
 							PrintWriter writer = new PrintWriter(new FileWriter(filePath, true));
-							String toWrite = itemName +", " + itemDescription + ", " + itemDate + "\n";
+							String toWrite = "ItemName: " + itemName + ", ItemDescription: " + itemDescription + ", DueDate: " + itemDate+ "\n";
 							writer.write(" \n");
 							writer.write(toWrite);
 							writer.close();

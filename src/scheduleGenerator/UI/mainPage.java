@@ -4,8 +4,12 @@ package scheduleGenerator.UI;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -126,6 +130,7 @@ public class mainPage {
 							foundUser = true;
 						}
 					}
+					reader.close();
 				}catch (Exception e1) {
 					print("Was unable to read existingDataBases file"); 
 				}
@@ -133,9 +138,27 @@ public class mainPage {
 					JOptionPane.showMessageDialog(f, "You do not have any created tasks!"); 
 				}else {
 					print("User does have existing database opening viewTasks");
-					viewTasksPage temp = new viewTasksPage(colorPallet, currentUser);
-					temp.startViewTasksPage();
-					closeFrame(); 
+					//viewTasksPage temp = new viewTasksPage(colorPallet, currentUser);
+					//temp.startViewTasksPage();
+					//closeFrame();
+					String filePath = "data\\databases\\"+ currentUser.getUsername()+".txt";
+					StringBuilder sb = new StringBuilder("All tasks for user "+ currentUser.getUsername()+"\n"); 
+					try {
+						BufferedReader in = new BufferedReader(new FileReader(filePath));
+						String line;
+						while((line = in.readLine()) != null) {
+							sb.append(line);
+							sb.append("\n");
+						}
+						in.close();
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						print("User file not found");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					JOptionPane.showMessageDialog(f, sb);
 				}
 			}
 		});

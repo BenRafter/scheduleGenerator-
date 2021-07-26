@@ -3,6 +3,7 @@ package scheduleGenerator.UI;
 import java.awt.Color;
 
 import javax.swing.JFrame;
+import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import scheduleGenerator.storage.overseer;
