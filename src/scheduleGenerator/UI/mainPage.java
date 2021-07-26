@@ -10,6 +10,7 @@ import java.util.Scanner;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 import scheduleGenerator.storage.overseer;
 
@@ -17,6 +18,10 @@ public class mainPage {
 	JFrame f = new JFrame("Main Page");
 	int colorPallet = 0;
 	overseer currentUser;
+	
+	public void print(Object toPrint) {
+		System.out.println(toPrint); 
+	}
 	
 	//Finds the prevUser line in the settings file 
 	public static String getTargetLine() {
@@ -103,6 +108,38 @@ public class mainPage {
 			}
 		});
 		f.add(newTaskButton);
+		
+		JButton viewAllTasks = new JButton("View Tasks");
+		viewAllTasks.setBounds(100,50, 100, 50);
+		viewAllTasks.setToolTipText("Click me to view all tasks for this user!");
+		viewAllTasks.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				print("viewAllTasks button pressed"); 
+				Boolean foundUser = false; 
+				try {//This try catch block checks to see if the user has a database and assigned 
+					//value to founduser true or false 
+					Scanner reader = new Scanner(new File("data\\existingDataBases"));
+					String curLine = "";
+					while(reader.hasNext()) {
+						curLine = reader.next().toString();
+						if(curLine.equals(currentUser.getUsername())) {
+							foundUser = true;
+						}
+					}
+				}catch (Exception e1) {
+					print("Was unable to read existingDataBases file"); 
+				}
+				if(foundUser == false) {
+					JOptionPane.showMessageDialog(f, "You do not have any created tasks!"); 
+				}else {
+					print("User does have existing database opening viewTasks");
+					viewTasksPage temp = new viewTasksPage(colorPallet, currentUser);
+					temp.startViewTasksPage();
+					closeFrame(); 
+				}
+			}
+		});
+		f.add(viewAllTasks);
 		
 		JButton quitButton = new JButton("Quit");
 		quitButton.setToolTipText("Click me to return to the desktop");

@@ -116,7 +116,7 @@ public class createNewTaskPage {
 							System.out.println(fileName);
 							File tempFile = new File(fileName);
 							PrintWriter writer2 = new PrintWriter(new FileWriter(tempFile, true));
-							String toWrite = itemName + ", " + itemDescription + ", " + itemDate+ "\n";
+							String toWrite = "Item name: " + itemName + ", Item Description: " + itemDescription + ", Due Date: " + itemDate+ "\n";
 							writer2.write(toWrite);
 							tempFile.createNewFile();
 							writer2.close();
