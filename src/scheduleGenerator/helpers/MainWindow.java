@@ -80,6 +80,8 @@ public class MainWindow extends JFrame implements PropertyChangeListener {
 			
 			JButton calendarButton = new JButton("Pick a Date");
 			JButton submitButton = new JButton("Submit");		
+			JLabel info = new JLabel(); 
+			info.setText("When choosing a date be sure to double click the date!");
 			
 			calendarButton.addActionListener(new ActionListener()
 			{
@@ -106,8 +108,9 @@ public class MainWindow extends JFrame implements PropertyChangeListener {
 			//add the UI controls to the ContentPane
 			cp.add(textField);
 			cp.add(calendarButton);
-			cp.add(submitButton); 
-			
+			cp.add(submitButton);
+			info.setBounds(50,150,100,40);
+			cp.add(info);
 			cp.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 	        
 	        
