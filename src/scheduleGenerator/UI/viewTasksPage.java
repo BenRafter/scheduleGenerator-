@@ -1,8 +1,12 @@
 package scheduleGenerator.UI;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 import javax.swing.JButton;
@@ -32,12 +36,13 @@ public class viewTasksPage {
 	}
 	
 	public void startViewTasksPage() {
+		int count = 0;
 		try {
 			String filePath = "data\\databases\\"+ currentUser.getUsername()+".txt";
 			BufferedReader in = new BufferedReader(new FileReader(filePath));
 			String line = "";
 			int nextPos = 50;
-			int count = 0;
+			
 			while((line = in.readLine())!=null) {
 				count++;
 			}
@@ -58,12 +63,39 @@ public class viewTasksPage {
 				nextPos += 50;
 				f.add(taskArray[i]);
 			}
+			int count2 = count;
 			JButton submitButton = new JButton("Submit Changes");
 			submitButton.setBounds(0,0, 200, 50);
+			submitButton.setToolTipText("Click me to submit your changes and return to the main page");
+			submitButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					try {
+						PrintWriter writer = new PrintWriter(filePath);
+						writer.print("");
+						for(int i = count2-1; i > -1; i--) {
+							writer.write(taskArray[i].getText());
+							writer.append("\n");
+						}
+						writer.close();
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+				}
+			});
 			f.add(submitButton);
 			
 			JButton quitButton = new JButton("Cancel Changes");
 			quitButton.setBounds(200, 0, 200, 50);
+			quitButton.setToolTipText("Click me to cancel your changes and return to the main page");
+			quitButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					mainPage temp = new mainPage(colorPallet, currentUser);
+					temp.startMainpage();
+					closeFrame();
+				}
+			});
 			f.add(quitButton);
 		}catch (Exception e) {
 			JOptionPane.showMessageDialog(f, "Failed to open data for user");

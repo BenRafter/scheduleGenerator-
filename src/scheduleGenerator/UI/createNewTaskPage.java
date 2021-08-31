@@ -15,6 +15,7 @@ import java.util.Scanner;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
@@ -137,6 +138,10 @@ public class createNewTaskPage {
 							writer.close();
 						}
 						reader.close();
+						JOptionPane.showMessageDialog(null,  "Task created");
+						nameField.setText("");
+						descField.setText("");
+						completionDate.setText("Due Date");
 					}catch (Exception f) {
 						print("Failed to read existingDataBases text file properly");
 					}
