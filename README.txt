@@ -6,5 +6,4 @@ Create new tasks (Set task name, task description, and due date)
 View tasks (Will only show anything for users who have created databases, wont show anything otherwise) 
 
 Features to add: 
-Edit and delete tasks 
 Add new users (Admins only) 
