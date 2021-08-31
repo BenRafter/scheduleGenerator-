@@ -77,6 +77,10 @@ public class viewTasksPage {
 							writer.append("\n");
 						}
 						writer.close();
+						JOptionPane.showMessageDialog(null,  "Change Applied");
+						mainPage temp = new mainPage(colorPallet, currentUser);
+						temp.startMainpage();
+						closeFrame();
 					} catch (FileNotFoundException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -86,9 +90,9 @@ public class viewTasksPage {
 			});
 			f.add(submitButton);
 			
-			JButton quitButton = new JButton("Cancel Changes");
+			JButton quitButton = new JButton("Back");
 			quitButton.setBounds(200, 0, 200, 50);
-			quitButton.setToolTipText("Click me to cancel your changes and return to the main page");
+			quitButton.setToolTipText("Click me to go back to the main page. If you didn't hit submit your changes won't be saved!");
 			quitButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					mainPage temp = new mainPage(colorPallet, currentUser);
